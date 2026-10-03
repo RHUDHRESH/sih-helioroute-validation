@@ -29,4 +29,4 @@ This is a bounded engineering verification package, not an assertion of ISO/IEC 
 4. DOM-free logic tests and real-browser smoke evidence remain distinct
 5. No hardware or standards-certification claim is inferred from software tests
 
-The checked-in CI workflow provides standard-library baseline validation and an expanded-study smoke job. It has not run on GitHub yet. Passing local commands is not a hosted CI result.
+The checked-in CI workflow provides standard-library baseline validation and an expanded-study smoke job. The [initial release passed hosted GitHub Actions on 3 October 2026](https://github.com/RHUDHRESH/sih-helioroute-validation/actions/runs/37095304743). Local verification and hosted verification remain separately recorded.

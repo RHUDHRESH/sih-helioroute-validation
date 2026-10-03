@@ -24,7 +24,9 @@ The repository includes a declared synthetic energy-flow model, five dispatch po
 | Baseline replay | **15 scenarios / 845 dispatch rows** |
 | Independent study accounting | Maximum residual **6.8213 × 10⁻¹³ W** |
 
-These are executed software simulations with explicit synthetic assumptions. Voltage, current, converter dynamics and physical hardware performance are outside the present evidence boundary. Hosted GitHub CI status must be read from Actions; local results are not a hosted CI claim.
+**Hosted validation:** the [initial release passed GitHub Actions](https://github.com/RHUDHRESH/sih-helioroute-validation/actions/runs/37095304743), including baseline validation and independently audited study smoke checks.
+
+These are executed software simulations with explicit synthetic assumptions. Voltage, current, converter dynamics and physical hardware performance are outside the present evidence boundary.
 
 ## The finding that matters
 
