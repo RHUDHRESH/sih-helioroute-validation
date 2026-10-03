@@ -1,0 +1,26 @@
+test_2000_seeded_property_cases (test_model.ModelTests.test_2000_seeded_property_cases) ... ok
+test_auditor_detects_corruption (test_model.ModelTests.test_auditor_detects_corruption) ... ok
+test_both_directions_are_symmetric (test_model.ModelTests.test_both_directions_are_symmetric) ... ok
+test_golden_exact_baseline_and_hardware_gain (test_model.ModelTests.test_golden_exact_baseline_and_hardware_gain) ... ok
+test_grid_limit_is_explicit_service_failure (test_model.ModelTests.test_grid_limit_is_explicit_service_failure) ... ok
+test_known_local_first_restriction_is_not_global_infeasibility (test_model.ModelTests.test_known_local_first_restriction_is_not_global_infeasibility) ... ok
+test_no_sink_means_curtailment (test_model.ModelTests.test_no_sink_means_curtailment) ... ok
+test_optimizer_matches_independent_discrete_exhaustion (test_model.ModelTests.test_optimizer_matches_independent_discrete_exhaustion) ... ok
+test_pairing_rejects_changed_input_and_service (test_model.ModelTests.test_pairing_rejects_changed_input_and_service) ... ok
+test_parameter_and_profile_validation (test_model.ModelTests.test_parameter_and_profile_validation) ... ok
+test_scenarios_are_deterministic_and_every_row_audits (test_model.ModelTests.test_scenarios_are_deterministic_and_every_row_audits) ... ok
+test_sending_and_receiving_ratings (test_model.ModelTests.test_sending_and_receiving_ratings) ... ok
+test_source_load_and_transfer_losses_independent_arithmetic (test_model.ModelTests.test_source_load_and_transfer_losses_independent_arithmetic) ... ok
+test_stale_and_failed_link_fall_back_to_conventional (test_model.ModelTests.test_stale_and_failed_link_fall_back_to_conventional) ... ok
+test_unconstrained_routing_cannot_create_savings (test_model.ModelTests.test_unconstrained_routing_cannot_create_savings) ... ok
+test_unpowered_controller_disables_link (test_model.ModelTests.test_unpowered_controller_disables_link) ... ok
+test_zero_generation_and_standby_are_not_savings (test_model.ModelTests.test_zero_generation_and_standby_are_not_savings) ... ok
+test_fabricated_summary_saving_is_rejected (test_study_audit.StudyAuditTests.test_fabricated_summary_saving_is_rejected) ... ok
+test_missing_policy_is_rejected (test_study_audit.StudyAuditTests.test_missing_policy_is_rejected) ... ok
+test_modified_path_loss_is_rejected (test_study_audit.StudyAuditTests.test_modified_path_loss_is_rejected) ... ok
+test_valid_saved_golden (test_study_audit.StudyAuditTests.test_valid_saved_golden) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.894s
+
+OK

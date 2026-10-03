@@ -1,0 +1,45 @@
+{
+  "status": "pass",
+  "case_count": 10316,
+  "input_steps": 39016,
+  "dispatches": 195080,
+  "groups": {
+    "seeded_day": {
+      "cases": 100,
+      "valid_comparisons": 100,
+      "invalid_service_comparisons": 0,
+      "beneficial": 21,
+      "adverse": 72,
+      "equal": 7,
+      "min_saving_wh": -240.00000000000364,
+      "max_saving_wh": 424.14006863979785
+    },
+    "factorial": {
+      "cases": 216,
+      "valid_comparisons": 216,
+      "invalid_service_comparisons": 0,
+      "beneficial": 144,
+      "adverse": 60,
+      "equal": 12,
+      "min_saving_wh": -20.0,
+      "max_saving_wh": 50.0
+    },
+    "capped_grid_stress": {
+      "cases": 10000,
+      "valid_comparisons": 3163,
+      "invalid_service_comparisons": 6837,
+      "beneficial": 700,
+      "adverse": 2463,
+      "equal": 0,
+      "min_saving_wh": -0.005553914955975736,
+      "max_saving_wh": 0.10386609055618247
+    }
+  },
+  "independent_audit": {
+    "status": "pass",
+    "checked_cases": 10316,
+    "checked_dispatches": 195080,
+    "max_abs_residual_w": 6.821210263296962e-13,
+    "tolerance": 1e-07
+  }
+}

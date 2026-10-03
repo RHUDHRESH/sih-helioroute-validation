@@ -1,0 +1,26 @@
+name: Synthetic model validation
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  stdlib-reproduction:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce all model tests and CSV accounting
+        run: python -m helioroute.run --no-plots --output /tmp/helioroute-results
+      - name: Independently audit exported artifacts
+        run: python3 verify_artifacts.py /tmp/helioroute-results
+  study-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.lock
+      - run: python study.py --days 2 --trials 50 --out /tmp/helioroute-study
+      - run: python verify_study.py /tmp/helioroute-study

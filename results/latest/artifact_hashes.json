@@ -1,0 +1,16 @@
+{
+  "artifact_verification.txt": "acd3484ebaf179d2ed17dcc6b1f67179c3a30ef628baa2d3ee825983ec87fde5",
+  "dispatch.csv": "5ded2fa0bf27e998842c09c5a972a193a73938188cdd475e7643b0017b106f4d",
+  "experiment_config.json": "82c839dd44588e32418a178aa8c652ed86c9ba994eea5292d0c956f7c2318fb8",
+  "inputs.csv": "ff4f8bdf9161366b49461bd05ff31697b55dc30efb89f6c9e1da1bc8d9350e59",
+  "manifest.json": "8705a54a524da7a19f2c4d7f8fcfb051d304cb635bb78a37f4325c96a1ba6ddb",
+  "plots\\comparison_boundaries.png": "790c638da0d9cf7ff7f6392183ac59b4fc7b64ee461aa79f6942e41d26a1be6d",
+  "plots\\fault_fallback.png": "a0812cfc901048addb2e8b7e07913eb4446fd67549a0e55c3a76eace180e070a",
+  "plots\\golden_energy_ledger.png": "f0b0162e07ee933229097b9302df7ba61bc979246978323586bb3c0ac6284d5b",
+  "plots\\synthetic_day.png": "e923dbb4df01ad3a6ccd78f5e6c9d2598f677fc1b6c85d11298ee69585540ee0",
+  "replay.json": "f528dbe7b61ea1ecc928c8364323d8e12f194e4cd3ed4c3c4cc63131aac16860",
+  "summary.json": "08fa4986b70b68cb7c3951ee3b2cbe52ae7de3dec44839a71779a1de54971d7c",
+  "test_report.txt": "a973c4bf138155e9836947cd7734c01a7725e9bcbf0b6185858e9ad84d8a8d1a",
+  "test_summary.json": "0d8ca578f63df79856a3cce8aa66b0e74313bdeb3d6a7c187e99f06013c36eeb",
+  "viewer_logic_tests.json": "e41c7ac8aa6327ba1300d5006973bec958a31587a5e4894621c8beee15dfa93d"
+}

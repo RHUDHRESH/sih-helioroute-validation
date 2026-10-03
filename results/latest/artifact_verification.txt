@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "checked_input_steps": 169,
+  "checked_dispatch_rows": 845,
+  "max_abs_recomputed_step_residual_w": 9.592326932761353e-14,
+  "absolute_tolerance_w_and_wh": 1e-07,
+  "errors": []
+}

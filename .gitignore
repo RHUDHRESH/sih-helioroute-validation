@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.DS_Store
+results/reproduction/
+results/reviewer*/
+results/windows_baseline/
+results/ci*/
+.playwright-cli/
+output/playwright/
+CLAUDE.md
+claude.md
+.env
+.env.*
+docs/images/

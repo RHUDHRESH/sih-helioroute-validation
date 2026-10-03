@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>HELIOROUTE | Synthetic comparison replay</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><div class="eyebrow">PROTOTYPE PIONEERS · TEAM160289 · SIH26217</div><h1>HELIOROUTE <span>comparison lab</span></h1><p>Replay of computed synthetic energy-flow simulation. No electrical transient or hardware measurements.</p></header>
+<main>
+<section class="controls" aria-label="Replay controls">
+<label>Scenario<select id="scenario" aria-label="Scenario"></select></label>
+<label>Comparison<select id="comparison" aria-label="Comparison"><option value="hardware">A · Conventional vs added routing hardware</option><option value="controller">B · Greedy vs restricted solver, same hardware</option></select></label>
+<div class="playback"><button id="start" aria-label="First step">↤</button><button id="play">Play</button><button id="next" aria-label="Next step">Next</button><label class="timeline">Shared timeline<input id="step" aria-label="Shared timeline" type="range" min="0" max="0" value="0"></label><output id="time">Loading…</output></div>
+</section>
+<p id="description" class="description"></p>
+<section class="common" aria-label="Shared inputs"><div>Same available PV <strong id="pv"></strong></div><div>Same useful demand <strong id="demand"></strong></div><div>Link / telemetry <strong id="fault"></strong></div><div>Evidence <strong>Synthetic · no storage</strong></div></section>
+<section class="cards" id="cards"></section>
+<section class="result"><div><h2>Whole-run comparison</h2><p id="delta"></p><p id="fairness"></p></div><div><h2>Grid import over the common trace</h2><canvas id="chart" width="780" height="240" aria-label="Computed grid import timeline" role="img"></canvas><p id="legend"></p></div></section>
+<details><summary>What this comparison does and does not prove</summary><p>Both controllers first serve local load from local PV. Only the remaining surplus can be shared. The solver is exact within this restricted two-path problem; it is not a global service-allocation optimizer. With capped grid backup, this restriction can leave a load unmet even when another network policy could serve it. Select “local_first_counterexample” to see that limitation.</p><p>Average real power only. No storage, pump/water model, export, AC voltage or current, MPPT, switching, protection timing, electrical stability, or hardware ratings are validated. Conversion efficiencies and capacities are synthetic assumptions. Optional standby is a dedicated grid-fed controller at B. Fault response is instantaneous at a simulation step.</p><p>The added link is extra hardware. A topology benefit does not prove control-algorithm superiority. The loss-aware greedy rule and restricted solver agree in this model.</p><a href="../docs/CLAIM_LEDGER.md">Claim ledger</a> · <a href="../results/latest/summary.json">Computed summary</a> · <a href="../results/latest/dispatch.csv">Raw per-step CSV</a> · <a href="../results/latest/manifest.json">Run provenance</a></details>
+<footer id="provenance"></footer>
+</main><script src="app.js"></script></body></html>

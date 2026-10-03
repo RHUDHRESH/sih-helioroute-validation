@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "checked_cases": 10316,
+  "checked_dispatches": 195080,
+  "max_abs_residual_w": 6.821210263296962e-13,
+  "tolerance": 1e-07
+}

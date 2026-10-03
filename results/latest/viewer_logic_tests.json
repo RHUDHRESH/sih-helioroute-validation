@@ -1,0 +1,55 @@
+{
+  "status": "pass",
+  "test_type": "DOM-free JavaScript control/render logic; not a real browser",
+  "tests_run": 12,
+  "checks": [
+    {
+      "test": "initial golden replay values",
+      "status": "pass"
+    },
+    {
+      "test": "single-step controls disabled",
+      "status": "pass"
+    },
+    {
+      "test": "same-hardware controller comparison equality",
+      "status": "pass"
+    },
+    {
+      "test": "scenario resets timeline",
+      "status": "pass"
+    },
+    {
+      "test": "next updates shared step and flags",
+      "status": "pass"
+    },
+    {
+      "test": "play advances computed replay",
+      "status": "pass"
+    },
+    {
+      "test": "pause cancels timer",
+      "status": "pass"
+    },
+    {
+      "test": "first resets replay",
+      "status": "pass"
+    },
+    {
+      "test": "known policy failure is visible and not a savings claim",
+      "status": "pass"
+    },
+    {
+      "test": "supply-bound infeasibility is distinguished",
+      "status": "pass"
+    },
+    {
+      "test": "standby negative result is visible",
+      "status": "pass"
+    },
+    {
+      "test": "final step disables Next and playback restarts at beginning",
+      "status": "pass"
+    }
+  ]
+}

@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "evidence_label": "synthetic-dispatch-simulation",
+  "evaluation_split": "exploratory-development-fixtures-not-held-out",
+  "seed": 26217,
+  "default_parameters": {
+    "source_efficiency": 0.98,
+    "load_efficiency": 0.97,
+    "conventional_efficiency": 0.99,
+    "conventional_capacity_w": 30,
+    "conventional_receive_capacity_w": 30,
+    "link_efficiency": 0.93,
+    "link_capacity_w": 100,
+    "link_receive_capacity_w": 100,
+    "auxiliary_standby_w": 0
+  },
+  "scenarios": [
+    {
+      "id": "golden_bottleneck",
+      "dt_s": 3600,
+      "description": "Hand arithmetic: baseline grid70Wh; route grid25Wh, loss5Wh; useful demand120Wh",
+      "parameters": {
+        "source_efficiency": 1,
+        "load_efficiency": 1,
+        "conventional_efficiency": 1,
+        "conventional_capacity_w": 30,
+        "link_efficiency": 0.9,
+        "link_capacity_w": 50
+      },
+      "steps": [
+        {
+          "pv_a_w": 100,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 100
+        }
+      ]
+    },
+    {
+      "id": "uniform_unconstrained",
+      "dt_s": 3600,
+      "description": "Balanced supply and demand; no cross-feeder deficit and no route benefit",
+      "parameters": {
+        "conventional_capacity_w": 300,
+        "conventional_receive_capacity_w": 300
+      },
+      "steps": [
+        {
+          "pv_a_w": 100,
+          "pv_b_w": 100,
+          "load_a_w": 80,
+          "load_b_w": 80
+        }
+      ]
+    },
+    {
+      "id": "unconstrained_transfer",
+      "dt_s": 3600,
+      "description": "Existing path can carry all surplus; lower-efficiency added path provides no benefit",
+      "parameters": {
+        "source_efficiency": 1,
+        "load_efficiency": 1,
+        "conventional_efficiency": 1,
+        "conventional_capacity_w": 200,
+        "conventional_receive_capacity_w": 200,
+        "link_efficiency": 0.9
+      },
+      "steps": [
+        {
+          "pv_a_w": 100,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 100
+        }
+      ]
+    },
+    {
+      "id": "asymmetric_day",
+      "dt_s": 600,
+      "description": "Synthetic day; deliberately high PV at A and high daytime useful demand at B; favorable mismatch is an assumption",
+      "generator": "asymmetric_day",
+      "count": 144
+    },
+    {
+      "id": "reverse_flow",
+      "dt_s": 3600,
+      "description": "Golden bottleneck with feeder roles reversed",
+      "parameters": {
+        "source_efficiency": 1,
+        "load_efficiency": 1,
+        "conventional_efficiency": 1,
+        "link_efficiency": 0.9,
+        "link_capacity_w": 50
+      },
+      "steps": [
+        {
+          "pv_a_w": 0,
+          "pv_b_w": 100,
+          "load_a_w": 100,
+          "load_b_w": 20
+        }
+      ]
+    },
+    {
+      "id": "abrupt_changes",
+      "dt_s": 60,
+      "description": "Step-wise source/load jumps, both directions, zero load and zero generation",
+      "steps": [
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 250
+        },
+        {
+          "pv_a_w": 0,
+          "pv_b_w": 300,
+          "load_a_w": 250,
+          "load_b_w": 20
+        },
+        {
+          "pv_a_w": 0,
+          "pv_b_w": 0,
+          "load_a_w": 250,
+          "load_b_w": 250
+        },
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 300,
+          "load_a_w": 0,
+          "load_b_w": 0
+        },
+        {
+          "pv_a_w": 80,
+          "pv_b_w": 80,
+          "load_a_w": 250,
+          "load_b_w": 250
+        }
+      ]
+    },
+    {
+      "id": "zero_generation",
+      "dt_s": 3600,
+      "description": "PV utilization is null, not zero or100%; all useful service uses grid",
+      "steps": [
+        {
+          "pv_a_w": 0,
+          "pv_b_w": 0,
+          "load_a_w": 40,
+          "load_b_w": 60
+        }
+      ]
+    },
+    {
+      "id": "standby_negative",
+      "dt_s": 3600,
+      "description": "No PV, same100Wh useful load; added dedicated grid-fed controller consumes2Wh",
+      "parameters": {
+        "auxiliary_standby_w": 2
+      },
+      "steps": [
+        {
+          "pv_a_w": 0,
+          "pv_b_w": 0,
+          "load_a_w": 40,
+          "load_b_w": 60
+        }
+      ]
+    },
+    {
+      "id": "receiving_load_removed",
+      "dt_s": 60,
+      "description": "No load, no storage or export means curtail, never invent an energy sink",
+      "steps": [
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200
+        },
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 0
+        },
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200
+        }
+      ]
+    },
+    {
+      "id": "rating_clamp",
+      "dt_s": 3600,
+      "description": "Separate sending and receiving average-real-power ratings",
+      "parameters": {
+        "conventional_capacity_w": 10,
+        "link_capacity_w": 15,
+        "link_receive_capacity_w": 10
+      },
+      "steps": [
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 300
+        }
+      ]
+    },
+    {
+      "id": "stale_telemetry",
+      "dt_s": 60,
+      "description": "Truthful local fallback assumed: optional link is off on stale supervisory telemetry",
+      "steps": [
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200
+        },
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200,
+          "telemetry_fresh": false
+        },
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200,
+          "telemetry_fresh": false
+        },
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200
+        }
+      ]
+    },
+    {
+      "id": "link_failure",
+      "dt_s": 60,
+      "description": "Link modeled open-circuit; conventional path remains usable; no trip latency is modeled",
+      "steps": [
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200
+        },
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200,
+          "link_available": false
+        },
+        {
+          "pv_a_w": 300,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 200,
+          "link_available": false
+        }
+      ]
+    },
+    {
+      "id": "infeasible_supply_bound",
+      "dt_s": 3600,
+      "description": "Demand100Wh, total grid capacity50Wh, zero PV. Energy-supply bound certifies at least50Wh unmet; never savings.",
+      "steps": [
+        {
+          "pv_a_w": 0,
+          "pv_b_w": 0,
+          "load_a_w": 0,
+          "load_b_w": 100,
+          "grid_cap_a_w": 0,
+          "grid_cap_b_w": 50
+        }
+      ]
+    },
+    {
+      "id": "efficiency_order_sensitivity",
+      "dt_s": 3600,
+      "description": "Artificial loss-order reversal; loss-aware greedy still equals exact optimizer; fixed-order rules are ablations",
+      "parameters": {
+        "source_efficiency": 1,
+        "load_efficiency": 1,
+        "conventional_efficiency": 0.8,
+        "conventional_capacity_w": 80,
+        "conventional_receive_capacity_w": 80,
+        "link_efficiency": 0.95,
+        "link_capacity_w": 80
+      },
+      "steps": [
+        {
+          "pv_a_w": 100,
+          "pv_b_w": 0,
+          "load_a_w": 20,
+          "load_b_w": 100
+        }
+      ]
+    },
+    {
+      "id": "local_first_counterexample",
+      "dt_s": 3600,
+      "description": "Known controller limitation: fixed local-first consumes100Wh PV at A, leaving100Wh unmetB. A broader policy could route100Wh PV to B and import100Wh grid at A to meet all200Wh demand. No physical infeasibility is claimed.",
+      "parameters": {
+        "source_efficiency": 1,
+        "load_efficiency": 1,
+        "conventional_efficiency": 1,
+        "conventional_capacity_w": 200,
+        "conventional_receive_capacity_w": 200,
+        "link_efficiency": 1,
+        "link_capacity_w": 200,
+        "link_receive_capacity_w": 200
+      },
+      "steps": [
+        {
+          "pv_a_w": 100,
+          "pv_b_w": 0,
+          "load_a_w": 100,
+          "load_b_w": 100,
+          "grid_cap_a_w": 100,
+          "grid_cap_b_w": 0
+        }
+      ]
+    }
+  ]
+}
