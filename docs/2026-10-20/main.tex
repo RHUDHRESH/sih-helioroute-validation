@@ -1,0 +1,111 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.82in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\setlist{nosep,leftmargin=*}
+\title{HelioRoute: Loss-Aware Renewable Energy Routing\ \large SIH Problem 26217 Technical Write-up}
+\author{Software prototype and proposed bench demonstrator}
+\date{20 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+HelioRoute is a browser-based simulator for coordinating renewable generation, electrical loads and water pumping across two local feeders. It explores whether otherwise-curtailed solar energy can serve demand on a neighboring feeder through a lossy, controlled link, while accounting for pump scheduling, controller consumption, conversion losses and water service. Its results support a promising mechanism for further testing, not a field-savings or hardware-performance claim. This report summarizes the implemented software, its measured synthetic results, and a low-voltage bench demonstrator with an indicative parts budget.
+\end{abstract}
+
+\section{Problem and proposed approach}
+Local renewable systems can have a timing mismatch: one feeder may have surplus solar power while another has unmet electrical load. If the surplus would otherwise be curtailed, routing some of it to the importing feeder may reduce grid imports. The transfer has conversion losses and controller overhead, however, and using energy that could have been exported may make net grid energy worse. A useful controller therefore needs to compare the expected grid exchange with and without transfer, including these costs, and sleep when no tested transfer improves the balance.
+
+The second service in this prototype is water pumping. Pumping can be shifted toward solar-rich periods, but water demand and the stored reserve are constraints, not optional loads. A claimed energy saving is meaningful only when policies deliver the same water volume and finish with the same tank volume. SIH problem 26217 is addressed here as a transparent software demonstration of these coupled decisions; actual campus profiles, electrical network behavior and equipment characteristics remain to be measured.
+
+\section{What is implemented}
+The simulator runs locally in a web browser at port 4176. Its default daily scenario has two feeders and 288 five-minute time steps. It models a 300~W input-rated bidirectional link with variable conversion efficiency (nominal factor 0.92 before a 12~W active-transfer loss), a 100~W export cap per feeder, and a controller drawing 6~W while awake or 0.4~W while asleep. Converter active loss and controller draw are charged separately. The controller searches discrete one-watt setpoints; it is a transparent heuristic, not a proof of continuous optimum or a validated power-flow controller.
+
+The pump model uses 400~W and 600~L/hour, with 900~L default daily demand, 750~L tank capacity and equal 350~L initial and terminal target. The smart schedule shifts average pump duty toward solar availability and retains a service/deadline guard. Pump energy, water served, unserved demand and tank state are reported. The assumptions are simulation parameters: average duty does not establish physical motor starts, minimum run times, hydraulic pressure or a tested water forecast.
+
+Four policies receive identical generation, load and water-demand profiles:
+\begin{itemize}
+\item \textbf{Fixed/no-link:} fixed 06:00 and 18:00 pump windows, with terminal top-up; no transfer link.
+\item \textbf{Smart-pump/no-link:} solar-shifted pump scheduling; no transfer link.
+\item \textbf{Always-awake:} fixed pump schedule with a continuously awake controller and loss-aware routing.
+\item \textbf{Smart loss-aware router:} smart pump scheduling with beneficial routing or sleep; it uses the same pump rule as the smart-pump comparator to isolate the added routing effect.
+\end{itemize}
+
+Energy balance is checked at every step: photovoltaic energy plus grid imports equals loads, pump and controller energy, grid exports, curtailment and converter losses. Net grid energy is imports minus exports, with equal energy credit per Wh. A reduction in gross imports alone is not counted as a saving if it sacrifices exportable solar. Fault or stale-communication flags disable the simulated link, but do not reproduce electrical fault dynamics.
+
+\section{Software results and evidence}
+In the default synthetic day, all policies served 900~L, pumped 900~L (600~Wh), and ended at 350~L with no unserved water. The combined smart-pump/router policy reduced modeled net grid energy by 2,329.266~Wh relative to fixed/no-link. The pump-only change accounts for 445.626~Wh; routing adds 1,883.640~Wh relative to the matched smart-pump/no-link policy. This separation avoids attributing pump scheduling gains to the link.
+
+\begin{table}[ht]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Default synthetic day results. Net grid energy is imports minus exports.}
+\begin{tabular}{lrrrr}
+\toprule
+Policy & Net grid (Wh) & Curtailment (Wh) & Converter loss (Wh) & Controller (Wh)\\
+\midrule
+Fixed/no-link & 14,472.251 & 6,555.509 & 0 & 0\\
+Smart-pump/no-link & 14,026.625 & 6,109.883 & 0 & 0\\
+Always-awake & 12,387.514 & 4,021.379 & 305.393 & 144.000\\
+Smart loss-aware router & 12,142.985 & 3,909.350 & 264.360 & 52.533\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A deterministic 100-day software benchmark (seed 26217) yielded mean net-grid savings of 1,624.968~Wh/day for the combined policy versus fixed/no-link: 80 positive days, 20 negative days and no neutral days. The worst day was $-9.600$~Wh. The synthetic generator intentionally sets every fifth day's solar scale to 0.1; this distribution is not a measured or representative field sample. The result indicates promise under the modeled profiles, while also showing that the policy can lose energy on adverse days.
+
+Verification records report 10 engine tests and 1 server test passing. Browser checks exercised the four-policy comparison, scenario and CSV/JSON import/export, fail-closed stale-communication behavior, water infeasibility handling, and a 100-day Web Worker benchmark that agreed with the independent Node benchmark within $7.28\times10^{-12}$ (below a $10^{-7}$ tolerance). The maximum step energy residual across the benchmark was $5.685\times10^{-14}$~Wh. These checks establish software consistency and interface behavior for synthetic inputs; they do not establish physical model accuracy. A water-service shortfall or mismatched terminal tank state invalidates savings comparisons, and the application suppresses savings for infeasible service.
+
+\section{Proposed low-voltage hardware demonstrator}
+A next step is a fused 12/24~V DC bench experiment. Use two small solar sources or current-limited supply emulators, two representative load banks, a microcontroller, voltage/current sensing on both sides, a protected bidirectional DC/DC stage, and a small pump with tank and float-level sensing. Include appropriately rated fuses, wiring and connectors, an enclosure, switching elements and an emergency stop. Log source, load, transfer and controller energy together with pump state, delivered water and final tank level. Compare the same four policies under matched source and load traces; record export/curtailment opportunity so that reduced imports do not obscure lost exports. First test at conservative power levels, then increase only after the converter, sensing, wiring and protection are designed and reviewed for the chosen operating point.
+
+The following parts budget is an early planning allowance in Indian rupees, not a supplier quotation or a verified current market price. The ranges cover typical component categories and exclude labor, instruments, shipping, taxes, custom mechanical work and contingency. Final component selection must match current, voltage, isolation, thermal and protection requirements.
+
+\begin{longtable}{p{0.46\linewidth}rr}
+\caption{Indicative low-voltage bench bill of materials (INR).}\label{tab:bom}\\
+\toprule
+Item & Low (INR) & High (INR)\\
+\midrule
+\endfirsthead
+\toprule
+Item & Low (INR) & High (INR)\\
+\midrule
+\endhead
+Microcontroller board & 500 & 1,000\\
+Voltage/current sensors, two ($2\times$ INR 300--700) & 600 & 1,400\\
+Protected bidirectional DC/DC converter stage & 1,500 & 4,000\\
+Two source/supply emulators ($2\times$ INR 1,000--2,500) & 2,000 & 5,000\\
+Two load banks and basic switching & 800 & 2,000\\
+Pump, tank and tubing & 1,000 & 2,500\\
+Float sensors and switching/relay hardware & 500 & 1,200\\
+Fuses, connectors, wiring and enclosure & 800 & 1,800\\
+\midrule
+\textbf{Estimated parts total} & \textbf{7,700} & \textbf{18,900}\\
+\bottomrule
+\end{longtable}
+
+These allowances describe a modest measurement demonstrator, not a build specification for a 300~W system. Any hardware operated near 300~W requires a qualified power-stage design, appropriately rated protection and wiring, thermal assessment, and controlled commissioning. The desktop simulator does not produce validated control firmware for connecting to physical equipment. The bench should begin at a lower, safely bounded power level and use hardware-specific limits and independent shutdown protection.
+
+\section{Limitations and next evidence}
+HelioRoute is a scalar energy-flow model. It is not an AC network solver, OpenDSS result, voltage/frequency study, switching-converter model or measurement from a live feeder. Synthetic solar, load and water profiles and assumed conversion/controller parameters determine the numerical results. The current project does not demonstrate anti-islanding, fault protection, thermal performance, motor transients, hydraulic pressure or relay lifetime. No live utility equipment is controlled.
+
+The next evidence should include measured converter efficiency across the operating range, real awake and sleep consumption, pump input power and flow, actual duty constraints, and synchronized solar, load and water-demand traces. Hardware protection and fault behavior must be assessed on the bench before field trials. Only a matched-service trial against a baseline on representative traces can establish realized energy savings; tariff-specific billing data would also be needed to infer monetary savings.
+
+\section*{References and project records}
+\begin{enumerate}[label={\arabic*.}]
+\item HelioRoute project description, assumptions and usage: local project report \texttt{helioroute/README.md}.
+\item HelioRoute validation, benchmark identity, energy accounting and adverse cases: local project report \texttt{helioroute/VALIDATION.md}; benchmark artifacts are stored under \texttt{artifacts/}.
+\item Browser verification, exports and Web Worker parity: local project report \texttt{helioroute/BROWSER\_QA.md}; screenshot and parity artifacts are stored under \texttt{output/playwright/} and \texttt{artifacts/}.
+\item OpenDSS, official project information: \url{https://www.epri.com/pages/sa/opendss}.
+\item SIH problem reference: Problem Statement ID 26217, as supplied for this prototype.
+\end{enumerate}
+\end{document}
+
