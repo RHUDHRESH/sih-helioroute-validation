@@ -2,13 +2,25 @@
 
 ### Measure the value of renewable-energy routing before building the hardware.
 
-**Smart India Hackathon · SIH26217 · Prototype Pioneers · Team 160289**
+**Built for:** Smart India Hackathon 2026 · SIH26217 · Prototype Pioneers (Team ID 160289)
+
+**Stack:** Python 3.12 · standard library for the simulation, tests and audits · pinned matplotlib and NumPy for PNG figures (`requirements.lock`)
 
 HELIOROUTE is a reproducible research codebase for a two-feeder renewable-energy system. It investigates whether an additional routing path can turn otherwise-curtailed PV into useful electrical service—and whether conversion losses and controller standby erase that benefit.
 
 The repository includes a declared synthetic energy-flow model, five dispatch policies, broad parameter studies, independent evidence audits and requirement-to-test traceability. Every reported number can be traced to a saved input and dispatch record.
 
 > **Research question:** When does additional transfer capacity reduce grid energy while delivering the same useful service?
+
+## Quick start
+
+The core run needs no install. The output folder is passed explicitly, because the default is the committed `results/latest`.
+
+```bash
+python -m helioroute.run --no-plots --output results/my-baseline
+```
+
+The full study, figures and the PowerShell wrapper are in [Reproduce the evidence](#reproduce-the-evidence).
 
 ## Evidence at a glance
 
@@ -112,3 +124,6 @@ The original baseline can be explored locally with `python -m http.server 8766 -
 5. Evaluate measured site traces before claiming deployment energy benefit or payback.
 
 **The deliverable is a verifiable decision basis for the next prototype: reproducible inputs, conserved energy, fair baselines and explicit adverse cases.**
+
+---
+Built by [Rhudhresh R](https://github.com/RHUDHRESH)
